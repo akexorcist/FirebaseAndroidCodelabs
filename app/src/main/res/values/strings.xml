@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Firebase Codelabs</string>
+    <string name="activity_login">Login</string>
+    <string name="activity_chat_room">Chat Room</string>
+    <string name="change_name">Change name</string>
+    <string name="sign_out">Sign out</string>
+    <string name="username_password_contain_at_least_6_characters">Username and password must contain at least 6 characters.</string>
+    <string name="please_insert_username_password">Please insert username and password.</string>
+    <string name="signed_in">Signed in</string>
+    <string name="loading">Loading…</string>
+</resources>
