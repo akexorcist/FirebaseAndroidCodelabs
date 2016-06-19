@@ -10,4 +10,7 @@
     <string name="loading">Loading…</string>
     <string name="user_greeting">"Hi,"</string>
     <string name="please_sign_in">Please sign in before chat.</string>
+    <string name="send">Send</string>
+    <string name="say_something">Say something</string>
+    <string name="sign_in_as">Sign in as</string>
 </resources>

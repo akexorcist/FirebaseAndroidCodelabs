@@ -31,6 +31,7 @@ dependencies {
         transitive = true
     }
     testCompile 'junit:junit:4.12'
+    compile 'com.android.support:recyclerview-v7:24.0.0'
 }
 
 

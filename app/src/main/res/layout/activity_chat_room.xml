@@ -5,6 +5,92 @@
     android:id="@+id/activity_chat_room"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     tools:context="com.akexorcist.myapplication.ChatRoomActivity">
 
+    <requestFocus />
+
+    <View
+        android:id="@+id/view_chat_box"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:background="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="@+id/activity_chat_room"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="@+id/activity_chat_room"
+        app:layout_constraintRight_toRightOf="@+id/activity_chat_room" />
+
+    <EditText
+        android:id="@+id/et_message"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="16dp"
+        android:ems="10"
+        android:hint="@string/say_something"
+        android:inputType="text"
+        android:padding="8dp"
+        android:textColorHint="@color/colorHint"
+        app:layout_constraintBottom_toBottomOf="@+id/view_chat_box"
+        app:layout_constraintLeft_toLeftOf="@+id/view_chat_box"
+        app:layout_constraintRight_toLeftOf="@+id/btn_send_message"
+        app:layout_constraintTop_toTopOf="@+id/view_chat_box" />
+
+    <ImageButton
+        android:id="@+id/btn_send_message"
+        android:layout_width="@dimen/button_send_message_size"
+        android:layout_height="@dimen/button_send_message_size"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/selector_oval_button_accent"
+        android:contentDescription="@null"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_send_white_36dp"
+        android:text="@string/send"
+        app:layout_constraintBottom_toBottomOf="@+id/view_chat_box"
+        app:layout_constraintRight_toRightOf="@+id/view_chat_box"
+        app:layout_constraintTop_toTopOf="@+id/view_chat_box" />
+
+    <TextView
+        android:id="@+id/tv_user_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:padding="16dp"
+        android:text="@string/sign_in_as"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintLeft_toLeftOf="@+id/activity_chat_room"
+        app:layout_constraintRight_toRightOf="@+id/rv_message"
+        app:layout_constraintTop_toTopOf="@+id/activity_chat_room" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_message"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/colorGrayExtraLight"
+        app:layout_constraintBottom_toTopOf="@+id/view_chat_box"
+        app:layout_constraintLeft_toLeftOf="@+id/activity_chat_room"
+        app:layout_constraintRight_toRightOf="@+id/activity_chat_room"
+        app:layout_constraintTop_toBottomOf="@+id/tv_user_name" />
+
+    <View
+        android:id="@+id/view_divider_name"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/divider_size"
+        android:background="@color/colorDivider"
+        app:layout_constraintLeft_toLeftOf="@+id/activity_chat_room"
+        app:layout_constraintRight_toRightOf="@+id/activity_chat_room"
+        app:layout_constraintTop_toBottomOf="@+id/tv_user_name" />
+
+    <View
+        android:id="@+id/view_divider_chat_box"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/divider_size"
+        android:background="@color/colorDivider"
+        app:layout_constraintLeft_toLeftOf="@+id/rv_message"
+        app:layout_constraintRight_toRightOf="@+id/rv_message"
+        app:layout_constraintTop_toTopOf="@+id/view_chat_box" />
 </android.support.constraint.ConstraintLayout>
