@@ -1,11 +1,13 @@
 package com.akexorcist.myapplication;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.akexorcist.myapplication.common.BaseActivity;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class ChatRoomActivity extends BaseActivity {
 
@@ -13,6 +15,29 @@ public class ChatRoomActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
+        checkUserAuthentication();
+    }
+
+    private void checkUserAuthentication() {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser == null) {
+            showPopupMessage(R.string.please_sign_in);
+            finish();
+        } else {
+            showBottomMessage(String.format("%s %s", getString(R.string.user_greeting), getUsername()), Snackbar.LENGTH_LONG);
+        }
+    }
+
+    private String getUsername() {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser != null) {
+            if (firebaseUser.getDisplayName() == null || firebaseUser.getDisplayName().isEmpty()) {
+                return firebaseUser.getEmail();
+            } else {
+                return firebaseUser.getDisplayName();
+            }
+        }
+        return "";
     }
 
     @Override

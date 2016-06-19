@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import static android.R.attr.duration;
+
 /**
  * Created by Akexorcist on 6/20/2016 AD.
  */
@@ -21,8 +23,16 @@ public class BaseActivity extends AppCompatActivity {
         Snackbar.make(getRootView(), message, Snackbar.LENGTH_SHORT).show();
     }
 
+    protected void showBottomMessage(String message, int durationType) {
+        Snackbar.make(getRootView(), message, durationType).show();
+    }
+
     protected void showBottomMessage(int strResId) {
         Snackbar.make(getRootView(), strResId, Snackbar.LENGTH_SHORT).show();
+    }
+
+    protected void showBottomMessage(int strResId, int durationType) {
+        Snackbar.make(getRootView(), strResId, durationType).show();
     }
 
     protected void showPopupMessage(String message) {

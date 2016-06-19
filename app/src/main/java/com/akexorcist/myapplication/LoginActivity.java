@@ -2,7 +2,6 @@ package com.akexorcist.myapplication;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -80,12 +79,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
             FirebaseUser user = firebaseAuth.getCurrentUser();
             if (user != null) {
-                Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                 dismissLoadingDialog();
-                showPopupMessage(R.string.signed_in);
                 goToChatRoom();
-            } else {
-                Log.d(TAG, "onAuthStateChanged:signed_out");
             }
         }
     };

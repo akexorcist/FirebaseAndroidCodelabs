@@ -8,4 +8,6 @@
     <string name="please_insert_username_password">Please insert username and password.</string>
     <string name="signed_in">Signed in</string>
     <string name="loading">Loading…</string>
+    <string name="user_greeting">"Hi,"</string>
+    <string name="please_sign_in">Please sign in before chat.</string>
 </resources>
