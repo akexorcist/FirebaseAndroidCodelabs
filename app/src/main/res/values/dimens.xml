@@ -4,4 +4,6 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="divider_size">1dp</dimen>
     <dimen name="button_send_message_size">48dp</dimen>
+    <dimen name="message_item_background_corner_radius">5dp</dimen>
+    <dimen name="message_item_border_width">1dp</dimen>
 </resources>

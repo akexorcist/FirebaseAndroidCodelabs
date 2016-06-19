@@ -1,7 +1,8 @@
 package com.akexorcist.myapplication;
 
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -9,16 +10,27 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.akexorcist.myapplication.adpter.MessageAdapter;
 import com.akexorcist.myapplication.common.BaseActivity;
+import com.akexorcist.myapplication.model.MessageItem;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class ChatRoomActivity extends BaseActivity implements View.OnClickListener {
     private TextView tvUserName;
     private EditText etMessage;
     private ImageButton btnSendMessage;
+    private RecyclerView rvMessage;
+    private MessageAdapter messageAdapter;
+    private ArrayList<MessageItem> messageItemList;
+    private DatabaseReference messageDatabaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,17 +39,31 @@ public class ChatRoomActivity extends BaseActivity implements View.OnClickListen
         checkUserAuthentication();
         bindView();
         setupView();
+        setupRealtimeDatabase();
     }
 
     private void bindView() {
         tvUserName = (TextView) findViewById(R.id.tv_user_name);
         etMessage = (EditText) findViewById(R.id.et_message);
         btnSendMessage = (ImageButton) findViewById(R.id.btn_send_message);
+        rvMessage = (RecyclerView) findViewById(R.id.rv_message);
     }
 
     private void setupView() {
         btnSendMessage.setOnClickListener(this);
         tvUserName.setText(String.format("%s %s", getString(R.string.sign_in_as), getUsername()));
+
+        messageItemList = new ArrayList<>();
+        messageAdapter = new MessageAdapter(messageItemList, FirebaseAuth.getInstance().getCurrentUser());
+        rvMessage.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        rvMessage.setAdapter(messageAdapter);
+    }
+
+    private void setupRealtimeDatabase() {
+        DatabaseReference rootDatabaseReference = FirebaseDatabase.getInstance().getReference();
+        messageDatabaseReference = rootDatabaseReference.child("global_room");
+        messageDatabaseReference.limitToFirst(10);
+        messageDatabaseReference.addValueEventListener(messageValueEventListener);
     }
 
     private void checkUserAuthentication() {
@@ -45,8 +71,6 @@ public class ChatRoomActivity extends BaseActivity implements View.OnClickListen
         if (firebaseUser == null) {
             showPopupMessage(R.string.please_sign_in);
             finish();
-        } else {
-            showBottomMessage(String.format("%s %s", getString(R.string.user_greeting), getUsername()), Snackbar.LENGTH_LONG);
         }
     }
 
@@ -61,6 +85,26 @@ public class ChatRoomActivity extends BaseActivity implements View.OnClickListen
         }
         return "";
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        messageDatabaseReference.removeEventListener(messageValueEventListener);
+    }
+
+    private ValueEventListener messageValueEventListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            MessageItem messageItem = dataSnapshot.getValue(MessageItem.class);
+            messageItemList.add(messageItem);
+            messageAdapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+            showPopupMessage(R.string.something_error_in_realtime_database);
+        }
+    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -104,14 +148,13 @@ public class ChatRoomActivity extends BaseActivity implements View.OnClickListen
         if (isMessageValidated(message)) {
             clearMessageBox();
             hideKeyboard();
-            // TODO Send message to realtime database
+            sendMessageToRealtimeDatabase(message);
         }
     }
 
-    private void sendMessageToDatabase() {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("message");
-        myRef.setValue("Hello, World!");
+    private void sendMessageToRealtimeDatabase(String message) {
+        MessageItem messageItem = new MessageItem(message, getUsername());
+        messageDatabaseReference.setValue(messageItem);
     }
 
     private boolean isMessageValidated(String message) {

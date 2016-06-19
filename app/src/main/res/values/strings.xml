@@ -8,9 +8,10 @@
     <string name="please_insert_username_password">Please insert username and password.</string>
     <string name="signed_in">Signed in</string>
     <string name="loading">Loading…</string>
-    <string name="user_greeting">"Hi,"</string>
     <string name="please_sign_in">Please sign in before chat.</string>
     <string name="send">Send</string>
     <string name="say_something">Say something</string>
     <string name="sign_in_as">Sign in as</string>
+    <string name="you">You</string>
+    <string name="something_error_in_realtime_database">Something error in realtime database.</string>
 </resources>
