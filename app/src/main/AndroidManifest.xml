@@ -19,8 +19,7 @@
         </activity>
         <activity
             android:name=".ChatRoomActivity"
-            android:label="@string/activity_chat_room"
-            android:launchMode="singleTop" />
+            android:label="@string/activity_chat_room" />
     </application>
 
 </manifest>
